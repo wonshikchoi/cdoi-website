@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Center for Deep Optical Imaging — Korea University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<style>
+  /* Home-specific styles */
+  .hero {
+    min-height: 100vh;
+    padding: 8rem 3rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: end;
+    position: relative;
+  }
+  .hero-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; gap: 2rem; align-items: center;
+    margin-bottom: 3rem;
+  }
+  .hero-meta::before { content: ''; width: 40px; height: 1px; background: var(--ink); }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3rem, 8vw, 7.5rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    margin-bottom: 2rem;
+  }
+  .hero-title em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .hero-right { display: flex; flex-direction: column; gap: 2rem; padding-bottom: 1rem; }
+  .hero-description { font-size: 1.05rem; line-height: 1.65; max-width: 38ch; color: #1a1a1a; }
+  .hero-pi {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; letter-spacing: 0.08em; color: var(--muted);
+  }
+  .hero-pi strong { color: var(--ink); font-weight: 500; }
+  .hero-visual {
+    position: absolute; right: 3rem; top: 8rem;
+    width: 180px; height: 180px; opacity: 0.3;
+  }
+  .hero-visual svg { width: 100%; height: 100%; }
+  @keyframes driftA { 0%,100% { transform: translate(0,0); } 50% { transform: translate(12px, -8px); } }
+  @keyframes driftB { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-10px, 10px); } }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .overview-heading {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+  }
+  .overview-heading em { font-style: italic; color: var(--accent); }
+  .overview-body { font-size: 1.05rem; line-height: 1.7; max-width: 60ch; }
+  .overview-body p + p { margin-top: 1.25rem; }
+
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 4rem;
+    border-top: 1px solid var(--line);
+  }
+  .research-card {
+    padding: 2.5rem 2rem 3rem 0;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.4s, padding 0.4s;
+    cursor: pointer;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .research-card:hover { background: var(--paper-soft); padding-left: 1rem; }
+  .research-card:last-child { border-right: none; }
+  .research-num { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 1.5rem; }
+  .research-title {
+    font-family: 'Fraunces', serif; font-size: 1.6rem;
+    font-weight: 400; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 1rem;
+  }
+  .research-title em { font-style: italic; color: var(--accent); }
+  .research-desc { font-size: 0.92rem; color: var(--muted); line-height: 1.6; max-width: 32ch; }
+
+  .pubs { background: var(--ink); color: var(--paper); padding: 8rem 3rem; }
+  .pubs .section-label { color: rgba(245,242,236,0.5); }
+  .pubs .section-label::before { color: var(--paper); }
+  .pubs-heading {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300; line-height: 1.05; letter-spacing: -0.025em;
+    max-width: 20ch; margin-bottom: 4rem;
+  }
+  .pubs-heading em { font-style: italic; color: var(--accent-soft); }
+  .pub-list { list-style: none; }
+  .pub-item {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 2rem; padding: 1.75rem 0;
+    border-top: 1px solid var(--line-dark);
+    align-items: baseline; transition: padding 0.3s;
+  }
+  .pub-item:last-child { border-bottom: 1px solid var(--line-dark); }
+  .pub-item:hover { padding-left: 1rem; }
+  .pub-year { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: rgba(245,242,236,0.5); letter-spacing: 0.08em; }
+  .pub-title { font-family: 'Fraunces', serif; font-size: 1.1rem; line-height: 1.35; font-weight: 300; }
+  .pub-venue {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: var(--accent-soft); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  }
+
+  .join { padding: 10rem 3rem; }
+  .join-inner { max-width: 900px; }
+  .join-label { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; }
+  .join-heading {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 300; line-height: 0.98; letter-spacing: -0.03em; margin-bottom: 2rem;
+  }
+  .join-heading em { font-style: italic; color: var(--accent); }
+  .join-body { font-size: 1.1rem; line-height: 1.65; max-width: 55ch; margin-bottom: 3rem; color: #2a2a2a; }
+  .join-cta {
+    display: inline-flex; align-items: center; gap: 1rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
+    padding: 1.25rem 2rem; border: 1px solid var(--ink); border-radius: 999px;
+    transition: all 0.3s;
+  }
+  .join-cta:hover { background: var(--ink); color: var(--paper); }
+  .join-cta::after { content: '→'; transition: transform 0.3s; }
+  .join-cta:hover::after { transform: translateX(4px); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+    .hero-visual { display: none; }
+    .pubs, .join { padding: 5rem 1.5rem; }
+    .overview-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .research-grid { grid-template-columns: 1fr; }
+    .research-card { border-right: none; }
+    .pub-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Deep Optical Imaging<span> / Korea Univ.</span></a>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="people.html">People</a></li>
+    <li><a href="#join">Join</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-visual">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#0a0a0a" stroke-width="0.5" fill="none">
+        <circle cx="100" cy="100" r="30" style="animation: driftA 8s ease-in-out infinite;"/>
+        <circle cx="100" cy="100" r="50"/>
+        <circle cx="100" cy="100" r="70" style="animation: driftB 10s ease-in-out infinite;"/>
+        <circle cx="100" cy="100" r="90"/>
+      </g>
+      <g fill="#c8442a"><circle cx="100" cy="100" r="2"/></g>
+      <g stroke="#0a0a0a" stroke-width="0.3" opacity="0.6">
+        <line x1="10" y1="100" x2="190" y2="100"/>
+        <line x1="100" y1="10" x2="100" y2="190"/>
+      </g>
+    </svg>
+  </div>
+
+  <div>
+    <div class="hero-meta"><span>Est. 2024 · Global Leader Project</span></div>
+    <h1 class="hero-title">
+      Seeing <em>deeper</em><br>
+      into complex<br>
+      scattering media.
+    </h1>
+  </div>
+
+  <div class="hero-right">
+    <p class="hero-description">
+      A physics laboratory pioneering reflection-matrix imaging and inverse-scattering methods to probe biological and material systems beyond conventional optical limits.
+    </p>
+    <div class="hero-pi">
+      Director <strong>Prof. Wonshik Choi</strong><br>
+      Department of Physics · Korea University
+    </div>
+  </div>
+</section>
+
+<section class="section" id="overview">
+  <div class="section-label" data-num="01">About the Center</div>
+  <div class="overview-grid">
+    <h2 class="overview-heading">
+      Solving the <em>inverse scattering</em> problem, one wavefront at a time.
+    </h2>
+    <div class="overview-body">
+      <p>Our center develops optical methodologies for imaging, sensing, and light manipulation of targets located deep within scattering media — beyond the working depth of conventional approaches.</p>
+      <p>We solve inverse-scattering problems at the microscopic level of scattering events and investigate the physics of wave propagation inside complex media. Our methods are applied to biological and biomedical problems, as well as the inspection of stacked semiconductors such as HBM.</p>
+      <p>Established August 2024, funded by the Global Leader Project of the National Research Foundation of Korea.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="research">
+  <div class="section-label" data-num="02">Research Directions</div>
+  <div class="research-grid">
+    <a href="research.html#deep-imaging" class="research-card">
+      <div class="research-num">R / 01</div>
+      <h3 class="research-title"><em>Deep</em> Imaging</h3>
+      <p class="research-desc">Reflection-matrix imaging and adaptive-optical microscopy for label-free, aberration-free imaging through intact biological tissues.</p>
+    </a>
+    <a href="research.html#endoscopy" class="research-card">
+      <div class="research-num">R / 02</div>
+      <h3 class="research-title">Holographic <em>Endoscopy</em></h3>
+      <p class="research-desc">Lensless single-fiber endoscopes and matrix approaches enabling microscopic imaging in confined geometries.</p>
+    </a>
+    <a href="research.html#optical-physics" class="research-card">
+      <div class="research-num">R / 03</div>
+      <h3 class="research-title">Optical <em>Physics</em></h3>
+      <p class="research-desc">Wave propagation through disordered media, transmission eigenchannels, and the physics of multiple scattering.</p>
+    </a>
+  </div>
+</section>
+
+<section class="pubs" id="publications">
+  <div class="section-label" data-num="03">Selected Publications</div>
+  <h2 class="pubs-heading">A decade of <em>firsts</em> in deep optical imaging.</h2>
+  <ul class="pub-list">
+    <li class="pub-item">
+      <span class="pub-year">2023</span>
+      <span class="pub-title">Tracing multiple scattering trajectories for deep optical imaging in scattering media</span>
+      <span class="pub-venue">Nature Communications</span>
+    </li>
+    <li class="pub-item">
+      <span class="pub-year">2023</span>
+      <span class="pub-title">Measuring the scattering tensor of a disordered nonlinear medium</span>
+      <span class="pub-venue">Nature Physics</span>
+    </li>
+    <li class="pub-item">
+      <span class="pub-year">2022</span>
+      <span class="pub-title">Flexible-type ultrathin holographic endoscope for microscopic imaging of unstained tissues</span>
+      <span class="pub-venue">Nature Communications</span>
+    </li>
+    <li class="pub-item">
+      <span class="pub-year">2020</span>
+      <span class="pub-title">Deep optical imaging within complex scattering media</span>
+      <span class="pub-venue">Nature Reviews Physics</span>
+    </li>
+    <li class="pub-item">
+      <span class="pub-year">2018</span>
+      <span class="pub-title">Focusing of light energy inside a scattering medium by controlling time-gated multiple scattering</span>
+      <span class="pub-venue">Nature Photonics</span>
+    </li>
+    <li class="pub-item">
+      <span class="pub-year">2015</span>
+      <span class="pub-title">Imaging deep within a scattering medium using collective accumulation of single-scattered waves</span>
+      <span class="pub-venue">Nature Photonics</span>
+    </li>
+  </ul>
+</section>
+
+<section class="join" id="join">
+  <div class="join-inner">
+    <div class="join-label">— Open Positions</div>
+    <h2 class="join-heading">We are actively<br><em>recruiting</em>.</h2>
+    <p class="join-body">Graduate students and postdoctoral researchers interested in optical microscopy, computational imaging with machine learning, and optical computing. Undergraduate internships are also open — from Korea University and beyond.</p>
+    <a href="mailto:wonshik@korea.ac.kr" class="join-cta">Contact the Director</a>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <strong>Center for Deep Optical Imaging</strong>
+    Department of Physics, Korea University<br>
+    145 Anam-Ro, Seongbuk-Gu, Seoul 02841, Korea
+  </div>
+  <div>
+    <strong>Contact</strong>
+    <a href="mailto:wonshik@korea.ac.kr">wonshik@korea.ac.kr</a><br>
+    +82-2-3290-3118
+  </div>
+  <div>
+    <strong>Affiliations</strong>
+    IBS Center for Molecular<br>Spectroscopy and Dynamics
+  </div>
+</footer>
+
+<script src="js/reveal.js"></script>
+</body>
+</html>

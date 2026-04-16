@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>People — Center for Deep Optical Imaging</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<style>
+  /* ---- PI feature block ---- */
+  .pi-block {
+    padding: 8rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .pi-portrait {
+    aspect-ratio: 4 / 5;
+    background: var(--paper-soft);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  /* Portrait placeholder with abstract optical pattern */
+  .pi-portrait::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 50% 40%, rgba(200,68,42,0.15) 0%, transparent 40%),
+      repeating-linear-gradient(
+        135deg,
+        transparent 0,
+        transparent 8px,
+        rgba(10,10,10,0.04) 8px,
+        rgba(10,10,10,0.04) 9px
+      );
+  }
+  .pi-portrait-label {
+    position: absolute;
+    bottom: 1.5rem; left: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .pi-info .pi-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .pi-info .pi-name {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+  .pi-info .pi-name em { font-style: italic; color: var(--accent); }
+  .pi-info .pi-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.15rem;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+  .pi-bio {
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 52ch;
+    margin-bottom: 2rem;
+  }
+  .pi-bio p + p { margin-top: 1rem; }
+  .pi-links {
+    display: flex;
+    gap: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+  }
+  .pi-links a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .pi-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---- People section (postdocs/students) ---- */
+  .people-section {
+    padding: 6rem 3rem;
+    border-top: 1px solid var(--line);
+  }
+  .people-section-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    align-items: end;
+    margin-bottom: 4rem;
+  }
+  .people-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+  }
+  .people-section-title em { font-style: italic; color: var(--accent); }
+  .people-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-align: right;
+    padding-bottom: 0.5rem;
+  }
+
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .person {
+    padding: 2rem 1.5rem 2rem 0;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s, padding 0.3s;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  .person:hover {
+    background: var(--paper-soft);
+    padding-left: 1rem;
+  }
+  .person-photo {
+    aspect-ratio: 1 / 1;
+    background: var(--paper-soft);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--line);
+  }
+  /* Abstract placeholder pattern — varies per index via nth-child */
+  .person-photo::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at var(--cx, 50%) var(--cy, 50%), rgba(200,68,42,0.12) 0%, transparent 45%),
+      repeating-linear-gradient(
+        var(--angle, 45deg),
+        transparent 0,
+        transparent 6px,
+        rgba(10,10,10,0.05) 6px,
+        rgba(10,10,10,0.05) 7px
+      );
+  }
+  .person-photo::after {
+    content: '';
+    position: absolute;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    top: var(--dot-y, 30%);
+    left: var(--dot-x, 70%);
+    opacity: 0.6;
+  }
+  .person:nth-child(6n+1) .person-photo { --cx: 30%; --cy: 60%; --angle: 30deg; --dot-x: 70%; --dot-y: 30%; }
+  .person:nth-child(6n+2) .person-photo { --cx: 70%; --cy: 30%; --angle: 60deg; --dot-x: 30%; --dot-y: 70%; }
+  .person:nth-child(6n+3) .person-photo { --cx: 50%; --cy: 50%; --angle: 90deg; --dot-x: 50%; --dot-y: 80%; }
+  .person:nth-child(6n+4) .person-photo { --cx: 20%; --cy: 80%; --angle: 120deg; --dot-x: 80%; --dot-y: 20%; }
+  .person:nth-child(6n+5) .person-photo { --cx: 80%; --cy: 20%; --angle: 150deg; --dot-x: 20%; --dot-y: 50%; }
+  .person:nth-child(6n)   .person-photo { --cx: 40%; --cy: 40%; --angle: 0deg;   --dot-x: 60%; --dot-y: 60%; }
+
+  .person-index {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .person-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.35rem;
+    line-height: 1.1;
+  }
+  .person-role {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .person-interest {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ---- Alumni strip ---- */
+  .alumni {
+    padding: 8rem 3rem;
+    background: var(--ink);
+    color: var(--paper);
+    border-top: 1px solid var(--line);
+  }
+  .alumni .section-label { color: rgba(245,242,236,0.5); }
+  .alumni .section-label::before { color: var(--paper); }
+  .alumni-heading {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    max-width: 22ch;
+    margin-bottom: 4rem;
+  }
+  .alumni-heading em { font-style: italic; color: var(--accent-soft); }
+  .alumni-list { list-style: none; }
+  .alumni-item {
+    display: grid;
+    grid-template-columns: 60px 1fr 1fr;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line-dark);
+    align-items: baseline;
+    font-family: 'Fraunces', serif;
+  }
+  .alumni-item:last-child { border-bottom: 1px solid var(--line-dark); }
+  .alumni-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(245,242,236,0.5);
+    letter-spacing: 0.08em;
+  }
+  .alumni-name { font-size: 1.1rem; font-weight: 400; }
+  .alumni-destination {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 0.88rem;
+    color: var(--accent-soft);
+    font-style: italic;
+  }
+
+  @media (max-width: 900px) {
+    .pi-block { grid-template-columns: 1fr; padding: 4rem 1.5rem; gap: 2rem; }
+    .people-section { padding: 4rem 1.5rem; }
+    .people-section-header { grid-template-columns: 1fr; gap: 1rem; }
+    .people-count { text-align: left; }
+    .people-grid { grid-template-columns: repeat(2, 1fr); }
+    .alumni { padding: 4rem 1.5rem; }
+    .alumni-item { grid-template-columns: 1fr; gap: 0.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Deep Optical Imaging<span> / Korea Univ.</span></a>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="people.html" class="active">People</a></li>
+    <li><a href="index.html#join">Join</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <div>
+    <div class="page-header-meta"><span>Lab · People</span></div>
+    <h1 class="page-title">
+      The <em>people</em><br>behind the light.
+    </h1>
+  </div>
+  <p class="page-header-description">
+    A team of physicists, optical engineers, and computational scientists working across scales — from single photons in scattering media to volumetric imaging of living tissue.
+  </p>
+</header>
+
+<!-- ============ PI ============ -->
+<section class="pi-block">
+  <div class="pi-portrait">
+    <div class="pi-portrait-label">Director · Est. 2024</div>
+  </div>
+  <div class="pi-info">
+    <div class="pi-role">— Principal Investigator</div>
+    <h2 class="pi-name">Wonshik <em>Choi</em></h2>
+    <p class="pi-title">Professor of Physics · Associate Director, IBS CMSD</p>
+    <div class="pi-bio">
+      <p>
+        Wonshik Choi leads the Center for Deep Optical Imaging at Korea University. His research develops reflection-matrix imaging, adaptive optics, and holographic endoscopy to see deep into scattering media — opening new windows into biological tissue and nanoscale materials.
+      </p>
+      <p>
+        His group has pioneered the accumulation of single-scattered waves, time-reversal matrix methods, and lensless fiber endoscopes. Their work has appeared in <em>Nature Photonics</em>, <em>Nature Physics</em>, and <em>Nature Reviews Physics</em>.
+      </p>
+    </div>
+    <div class="pi-links">
+      <a href="mailto:wonshik@korea.ac.kr">wonshik@korea.ac.kr</a>
+      <a href="#">Google Scholar ↗</a>
+      <a href="#">CV / PDF ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POSTDOCS ============ -->
+<section class="people-section" id="postdocs">
+  <div class="people-section-header">
+    <h2 class="people-section-title">Postdoctoral <em>Researchers</em></h2>
+    <div class="people-count">05 researchers · 2026</div>
+  </div>
+  <div class="people-grid">
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">P / 01</div>
+      <h3 class="person-name">[Postdoc Name]</h3>
+      <div class="person-role">Postdoctoral Researcher</div>
+      <p class="person-interest">Reflection-matrix imaging for neural tissue</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">P / 02</div>
+      <h3 class="person-name">[Postdoc Name]</h3>
+      <div class="person-role">Postdoctoral Researcher</div>
+      <p class="person-interest">Computational imaging, machine learning</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">P / 03</div>
+      <h3 class="person-name">[Postdoc Name]</h3>
+      <div class="person-role">Postdoctoral Researcher</div>
+      <p class="person-interest">Holographic endoscopy, fiber optics</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">P / 04</div>
+      <h3 class="person-name">[Postdoc Name]</h3>
+      <div class="person-role">Postdoctoral Researcher</div>
+      <p class="person-interest">Nonlinear scattering media</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">P / 05</div>
+      <h3 class="person-name">[Postdoc Name]</h3>
+      <div class="person-role">Postdoctoral Researcher</div>
+      <p class="person-interest">Semiconductor inspection, HBM imaging</p>
+    </a>
+  </div>
+</section>
+
+<!-- ============ GRADUATE STUDENTS ============ -->
+<section class="people-section" id="graduate">
+  <div class="people-section-header">
+    <h2 class="people-section-title">Graduate <em>Students</em></h2>
+    <div class="people-count">10 students · 2026</div>
+  </div>
+  <div class="people-grid">
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 01</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">Ph.D. Candidate</div>
+      <p class="person-interest">Adaptive optics through skull</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 02</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">Ph.D. Candidate</div>
+      <p class="person-interest">Single-molecule localization in vivo</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 03</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">Ph.D. Candidate</div>
+      <p class="person-interest">Volumetric wave correlation</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 04</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">Ph.D. Student</div>
+      <p class="person-interest">Time-gated multiple scattering</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 05</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">Ph.D. Student</div>
+      <p class="person-interest">Multimode fiber imaging</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 06</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">Ph.D. Student</div>
+      <p class="person-interest">Deep learning for inverse scattering</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 07</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">M.S. Candidate</div>
+      <p class="person-interest">Transmission eigenchannels</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 08</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">M.S. Candidate</div>
+      <p class="person-interest">Label-free neuroimaging</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 09</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">M.S. Student</div>
+      <p class="person-interest">Optical computing</p>
+    </a>
+    <a href="#" class="person">
+      <div class="person-photo"></div>
+      <div class="person-index">G / 10</div>
+      <h3 class="person-name">[Student Name]</h3>
+      <div class="person-role">M.S. Student</div>
+      <p class="person-interest">Stacked semiconductor inspection</p>
+    </a>
+  </div>
+</section>
+
+<!-- ============ ALUMNI ============ -->
+<section class="alumni">
+  <div class="section-label" data-num="—">Alumni</div>
+  <h2 class="alumni-heading">Former members, <em>now elsewhere</em>.</h2>
+  <ul class="alumni-list">
+    <li class="alumni-item">
+      <span class="alumni-year">2024</span>
+      <span class="alumni-name">[Alumni Name]</span>
+      <span class="alumni-destination">Assistant Professor, KAIST</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-year">2023</span>
+      <span class="alumni-name">[Alumni Name]</span>
+      <span class="alumni-destination">Postdoc, MIT</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-year">2022</span>
+      <span class="alumni-name">[Alumni Name]</span>
+      <span class="alumni-destination">Research Scientist, Samsung Advanced Institute of Technology</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-year">2021</span>
+      <span class="alumni-name">[Alumni Name]</span>
+      <span class="alumni-destination">Postdoc, Stanford University</span>
+    </li>
+  </ul>
+</section>
+
+<footer>
+  <div>
+    <strong>Center for Deep Optical Imaging</strong>
+    Department of Physics, Korea University<br>
+    145 Anam-Ro, Seongbuk-Gu, Seoul 02841, Korea
+  </div>
+  <div>
+    <strong>Contact</strong>
+    <a href="mailto:wonshik@korea.ac.kr">wonshik@korea.ac.kr</a><br>
+    +82-2-3290-3118
+  </div>
+  <div>
+    <strong>Affiliations</strong>
+    IBS Center for Molecular<br>Spectroscopy and Dynamics
+  </div>
+</footer>
+
+<script src="js/reveal.js"></script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Research — Center for Deep Optical Imaging</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<style>
+  /* ---- Table of contents sidebar on desktop ---- */
+  .research-toc {
+    padding: 3rem 3rem 0;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .toc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .toc-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .toc-link:hover { border-color: var(--ink); background: var(--paper-soft); }
+
+  /* ---- Research area blocks ---- */
+  .area {
+    padding: 7rem 3rem;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 2rem;
+  }
+  .area:nth-child(even) { background: var(--paper-soft); }
+
+  .area-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: end;
+    margin-bottom: 4rem;
+  }
+  .area-num {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(4rem, 10vw, 8rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .area-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+  .area-title em { font-style: italic; color: var(--accent); }
+  .area-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .area-content {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .area-visual {
+    aspect-ratio: 4 / 5;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .area:nth-child(even) .area-visual { background: var(--paper); }
+
+  /* Visual A: Deep imaging — concentric interference */
+  .visual-a::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      repeating-radial-gradient(
+        circle at 50% 50%,
+        transparent 0,
+        transparent 18px,
+        rgba(10,10,10,0.1) 18px,
+        rgba(10,10,10,0.1) 19px
+      );
+  }
+  .visual-a::after {
+    content: '';
+    position: absolute;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 30px rgba(200,68,42,0.4);
+  }
+
+  /* Visual B: Endoscopy — fiber bundle dots */
+  .visual-b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .visual-b::before {
+    content: '';
+    width: 60%; aspect-ratio: 1;
+    background-image:
+      radial-gradient(circle at center, var(--accent) 0, var(--accent) 2px, transparent 2.5px),
+      radial-gradient(circle at center, rgba(10,10,10,0.25) 0, rgba(10,10,10,0.25) 2px, transparent 2.5px);
+    background-size: 14px 14px, 14px 14px;
+    background-position: 0 0, 7px 7px;
+    border-radius: 50%;
+    mask-image: radial-gradient(circle, black 55%, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle, black 55%, transparent 70%);
+  }
+
+  /* Visual C: Optical physics — wave lines */
+  .visual-c::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, transparent 0%, rgba(10,10,10,0.08) 50%, transparent 100%),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 12px,
+        rgba(10,10,10,0.15) 12px,
+        rgba(10,10,10,0.15) 13px
+      );
+  }
+  .visual-c::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 20%; right: 20%;
+    height: 2px;
+    background: var(--accent);
+    transform: translateY(-50%);
+    box-shadow: 0 0 15px rgba(200,68,42,0.5);
+  }
+
+  .area-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 60ch;
+  }
+  .area-text p + p { margin-top: 1.25rem; }
+  .area-text em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .area-text strong { font-weight: 500; color: var(--ink); }
+
+  .area-keywords {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .keyword {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+  }
+
+  .area-key-papers {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .key-papers-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .key-paper {
+    display: block;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.3s, padding-left 0.3s;
+  }
+  .key-paper:hover { color: var(--accent); padding-left: 0.5rem; }
+  .key-paper .kp-venue {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    font-style: normal;
+  }
+
+  /* ---- Collaborate CTA ---- */
+  .collab {
+    padding: 8rem 3rem;
+    background: var(--ink);
+    color: var(--paper);
+    border-top: 1px solid var(--line);
+  }
+  .collab-inner {
+    max-width: 900px;
+  }
+  .collab-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 2rem;
+  }
+  .collab-heading {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    margin-bottom: 2rem;
+  }
+  .collab-heading em { font-style: italic; color: var(--accent-soft); }
+  .collab-body {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    max-width: 55ch;
+    margin-bottom: 2.5rem;
+    color: rgba(245,242,236,0.85);
+  }
+  .collab-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--paper);
+    text-decoration: none;
+    padding: 1.25rem 2rem;
+    border: 1px solid var(--paper);
+    border-radius: 999px;
+    transition: all 0.3s;
+  }
+  .collab-cta:hover { background: var(--paper); color: var(--ink); }
+  .collab-cta::after { content: '→'; transition: transform 0.3s; }
+  .collab-cta:hover::after { transform: translateX(4px); }
+
+  @media (max-width: 900px) {
+    .research-toc { padding: 2rem 1.5rem 0; }
+    .area { padding: 4rem 1.5rem; }
+    .area-header { grid-template-columns: 1fr; gap: 1.5rem; }
+    .area-content { grid-template-columns: 1fr; gap: 2rem; }
+    .area-visual { aspect-ratio: 3 / 2; }
+    .collab { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Deep Optical Imaging<span> / Korea Univ.</span></a>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="research.html" class="active">Research</a></li>
+    <li><a href="publications.html">Publications</a></li>
+    <li><a href="people.html">People</a></li>
+    <li><a href="index.html#join">Join</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <div>
+    <div class="page-header-meta"><span>Lab · Research</span></div>
+    <h1 class="page-title">
+      Three threads,<br>one <em>question</em>.
+    </h1>
+  </div>
+  <p class="page-header-description">
+    How do we see through what obscures? Our research spans deep-tissue imaging, holographic endoscopy, and the fundamental physics of waves in disordered media.
+  </p>
+</header>
+
+<!-- ============ TOC ============ -->
+<nav class="research-toc">
+  <span class="toc-label">Jump to —</span>
+  <a href="#deep-imaging" class="toc-link">01 · Deep Imaging</a>
+  <a href="#endoscopy" class="toc-link">02 · Endoscopy</a>
+  <a href="#optical-physics" class="toc-link">03 · Optical Physics</a>
+</nav>
+
+<!-- ============ AREA 01 ============ -->
+<section class="area" id="deep-imaging">
+  <div class="area-header">
+    <div class="area-num">01</div>
+    <div>
+      <div class="area-tagline">— Reflection-matrix imaging · adaptive optics</div>
+      <h2 class="area-title">Imaging <em>deep</em> into scattering tissue.</h2>
+    </div>
+  </div>
+
+  <div class="area-content">
+    <div class="area-visual visual-a"></div>
+
+    <div>
+      <div class="area-text">
+        <p>
+          Biological tissue scatters light. A photon launched into a mouse brain quickly loses its directionality — the signal we want drowns in a sea of <em>multiply-scattered noise</em>. Conventional microscopes stop working at a few hundred micrometers below the surface.
+        </p>
+        <p>
+          We build a different kind of microscope. Instead of collecting intensity, we record the full <strong>reflection matrix</strong> — the complex-valued map between every input and output optical mode. With this matrix in hand, the inverse problem of scattering becomes tractable: we can computationally undo aberrations, reject multiply-scattered photons, and recover images with diffraction-limited resolution.
+        </p>
+        <p>
+          Our methods have enabled <em>label-free imaging through an intact mouse skull</em>, <em>through-skull in vivo visible-wavelength microscopy</em>, and volumetric adaptive optics at speeds useful for neuroscience. We are now pushing toward millimeter depths and live-animal work.
+        </p>
+      </div>
+
+      <div class="area-keywords">
+        <span class="keyword">Reflection Matrix</span>
+        <span class="keyword">Adaptive Optics</span>
+        <span class="keyword">Through-skull Imaging</span>
+        <span class="keyword">Label-free</span>
+        <span class="keyword">Inverse Scattering</span>
+      </div>
+
+      <div class="area-key-papers">
+        <div class="key-papers-label">Key Papers</div>
+        <a href="https://www.nature.com/articles/s41467-023-42525-7" class="key-paper" target="_blank">
+          Tracing multiple scattering trajectories for deep optical imaging in scattering media
+          <span class="kp-venue">Nature Communications · 2023</span>
+        </a>
+        <a href="https://www.nature.com/articles/s41467-020-19550-x" class="key-paper" target="_blank">
+          Laser-scanning reflection-matrix microscopy through intact mouse skull
+          <span class="kp-venue">Nature Communications · 2020</span>
+        </a>
+        <a href="https://www.nature.com/articles/nphoton.2015.24" class="key-paper" target="_blank">
+          Imaging deep within a scattering medium using collective accumulation of single-scattered waves
+          <span class="kp-venue">Nature Photonics · 2015</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AREA 02 ============ -->
+<section class="area" id="endoscopy">
+  <div class="area-header">
+    <div class="area-num">02</div>
+    <div>
+      <div class="area-tagline">— Holographic fiber endoscopy · nanoscopy</div>
+      <h2 class="area-title">Microscopy through a <em>single fiber</em>.</h2>
+    </div>
+  </div>
+
+  <div class="area-content">
+    <div class="area-visual visual-b"></div>
+
+    <div>
+      <div class="area-text">
+        <p>
+          A conventional endoscope needs a lens at its tip. That limits how thin it can be. If you want to image inside the brain of a living mouse — through a capillary, around a corner — the lens itself is the problem.
+        </p>
+        <p>
+          We take the lens away. A multimode optical fiber can carry thousands of spatial modes in a package hundreds of micrometers thin. Scrambled at the output, yes — but the scrambling is <em>deterministic</em>. We measure the transmission matrix of the fiber once, and from then on we can project arbitrary focused beams from its distal tip and reconstruct full microscopic images.
+        </p>
+        <p>
+          Our <strong>flexible-type ultrathin holographic endoscope</strong> images unstained biological tissue at cellular resolution, and our near-field transmission matrix microscopy maps eigenmodes of subwavelength nanostructures — extending these ideas from endoscopy into nanoscopy.
+        </p>
+      </div>
+
+      <div class="area-keywords">
+        <span class="keyword">Multimode Fiber</span>
+        <span class="keyword">Transmission Matrix</span>
+        <span class="keyword">Lensless</span>
+        <span class="keyword">Holography</span>
+        <span class="keyword">Near-field</span>
+      </div>
+
+      <div class="area-key-papers">
+        <div class="key-papers-label">Key Papers</div>
+        <a href="https://www.nature.com/articles/s41467-022-32114-5" class="key-paper" target="_blank">
+          Flexible-type ultrathin holographic endoscope for microscopic imaging of unstained tissues
+          <span class="kp-venue">Nature Communications · 2022</span>
+        </a>
+        <a href="https://www.nature.com/articles/s41467-020-16263-z" class="key-paper" target="_blank">
+          Near-field transmission matrix microscopy for subwavelength nanostructures
+          <span class="kp-venue">Nature Communications · 2020</span>
+        </a>
+        <a href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.109.203901" class="key-paper" target="_blank">
+          Scanner-free wide-field endoscopic imaging through a single multimode fiber
+          <span class="kp-venue">Physical Review Letters · 2012</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AREA 03 ============ -->
+<section class="area" id="optical-physics">
+  <div class="area-header">
+    <div class="area-num">03</div>
+    <div>
+      <div class="area-tagline">— Wave propagation · transmission eigenchannels</div>
+      <h2 class="area-title">The <em>physics</em> of light in disordered media.</h2>
+    </div>
+  </div>
+
+  <div class="area-content">
+    <div class="area-visual visual-c"></div>
+
+    <div>
+      <div class="area-text">
+        <p>
+          Before we can <em>use</em> scattered light for imaging, we have to understand it. What are the fundamental limits? How does energy flow through a disordered medium? Can we design waveforms that punch through opacity rather than be absorbed by it?
+        </p>
+        <p>
+          We study the physics of multiple light scattering: <strong>transmission eigenchannels</strong> that concentrate energy deep inside opaque materials, <strong>time-gated</strong> control of multiply-scattered photons, and — recently — the <em>scattering tensor</em> of disordered <strong>nonlinear</strong> media, where wave mixing rewrites the rules.
+        </p>
+        <p>
+          This is foundational work. It tells us what is possible, and often the answer is surprising: disorder, properly exploited, is a resource rather than a limitation.
+        </p>
+      </div>
+
+      <div class="area-keywords">
+        <span class="keyword">Transmission Eigenchannels</span>
+        <span class="keyword">Time-reversal</span>
+        <span class="keyword">Nonlinear Scattering</span>
+        <span class="keyword">Wavefront Shaping</span>
+        <span class="keyword">Disordered Media</span>
+      </div>
+
+      <div class="area-key-papers">
+        <div class="key-papers-label">Key Papers</div>
+        <a href="https://www.nature.com/articles/s41567-023-02163-8" class="key-paper" target="_blank">
+          Measuring the scattering tensor of a disordered nonlinear medium
+          <span class="kp-venue">Nature Physics · 2023</span>
+        </a>
+        <a href="https://www.nature.com/articles/s41566-018-0120-9" class="key-paper" target="_blank">
+          Focusing light energy inside a scattering medium by time-gated multiple scattering
+          <span class="kp-venue">Nature Photonics · 2018</span>
+        </a>
+        <a href="https://www.nature.com/articles/nphoton.2012.159" class="key-paper" target="_blank">
+          Maximal energy transport through disordered media via transmission eigenchannels
+          <span class="kp-venue">Nature Photonics · 2012</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COLLABORATE ============ -->
+<section class="collab">
+  <div class="collab-inner">
+    <div class="collab-label">— Collaborate with us</div>
+    <h2 class="collab-heading">Problems <em>we haven't solved</em> yet.</h2>
+    <p class="collab-body">
+      We work with biologists, clinicians, and semiconductor engineers on imaging problems that conventional microscopes cannot reach. If you have a sample that scatters, or a material that hides its internal structure from visible light, we would like to hear from you.
+    </p>
+    <a href="mailto:wonshik@korea.ac.kr" class="collab-cta">Get in touch</a>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <strong>Center for Deep Optical Imaging</strong>
+    Department of Physics, Korea University<br>
+    145 Anam-Ro, Seongbuk-Gu, Seoul 02841, Korea
+  </div>
+  <div>
+    <strong>Contact</strong>
+    <a href="mailto:wonshik@korea.ac.kr">wonshik@korea.ac.kr</a><br>
+    +82-2-3290-3118
+  </div>
+  <div>
+    <strong>Affiliations</strong>
+    IBS Center for Molecular<br>Spectroscopy and Dynamics
+  </div>
+</footer>
+
+<script src="js/reveal.js"></script>
+</body>
+</html>

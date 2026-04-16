@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Publications — Center for Deep Optical Imaging</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<style>
+  /* ---- Filter bar ---- */
+  .filter-bar {
+    padding: 3rem 3rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .filter-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 1rem;
+  }
+  .filter-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all 0.3s;
+  }
+  .filter-btn:hover { border-color: var(--ink); }
+  .filter-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* ---- Pubs list ---- */
+  .pubs-container {
+    padding: 4rem 3rem 8rem;
+  }
+
+  .year-group {
+    padding: 3rem 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .year-group:first-of-type { border-top: none; padding-top: 1rem; }
+
+  .year-label {
+    font-family: 'Fraunces', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    position: sticky;
+    top: 6rem;
+    color: var(--ink);
+  }
+  .year-label small {
+    display: block;
+    margin-top: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .paper-list { list-style: none; }
+  .paper {
+    padding: 2rem 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: baseline;
+    transition: padding 0.3s, opacity 0.3s;
+  }
+  .paper:first-child { border-top: none; padding-top: 0; }
+  .paper:hover { padding-left: 1rem; }
+  .paper.hidden { display: none; }
+
+  .paper-main {
+    max-width: 70ch;
+  }
+  .paper-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+  }
+  .paper-title a {
+    color: var(--ink);
+    text-decoration: none;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1px;
+    transition: background-size 0.4s;
+    padding-bottom: 2px;
+  }
+  .paper-title a:hover { background-size: 100% 1px; }
+
+  .paper-authors {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+  }
+  .paper-authors .us {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .paper-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .paper-venue {
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .paper-tag {
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .paper-links {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 0.35rem;
+  }
+  .paper-links a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+    margin-left: 1rem;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .paper-links a:first-child { margin-left: 0; }
+  .paper-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---- Empty state ---- */
+  .no-results {
+    padding: 6rem 0;
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--muted);
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .filter-bar { padding: 2rem 1.5rem 0; }
+    .pubs-container { padding: 2rem 1.5rem 4rem; }
+    .year-group {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 2rem 0;
+    }
+    .year-label {
+      position: static;
+      font-size: 2.5rem;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .year-label small { margin-top: 0; }
+    .paper {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      padding: 1.5rem 0;
+    }
+    .paper-links { padding-top: 0; }
+    .paper-links a { margin-left: 0; margin-right: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Deep Optical Imaging<span> / Korea Univ.</span></a>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="publications.html" class="active">Publications</a></li>
+    <li><a href="people.html">People</a></li>
+    <li><a href="index.html#join">Join</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <div>
+    <div class="page-header-meta"><span>Lab · Publications</span></div>
+    <h1 class="page-title">
+      A record of the <em>work</em>.
+    </h1>
+  </div>
+  <p class="page-header-description">
+    Selected peer-reviewed publications by our group and collaborators. Filter by research area or browse by year. For a complete list, see Google Scholar.
+  </p>
+</header>
+
+<!-- ============ FILTER ============ -->
+<div class="filter-bar">
+  <span class="filter-label">Filter —</span>
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="deep-imaging">Deep Imaging</button>
+  <button class="filter-btn" data-filter="wave">Wave Propagation</button>
+  <button class="filter-btn" data-filter="endoscopy">Endoscopy &amp; Nanoscopy</button>
+</div>
+
+<!-- ============ LIST ============ -->
+<div class="pubs-container">
+
+  <div class="year-group">
+    <div class="year-label">2023<small>— 04 papers</small></div>
+    <ul class="paper-list">
+
+      <li class="paper" data-tag="deep-imaging">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s41467-023-42525-7" target="_blank" rel="noopener">
+              Tracing multiple scattering trajectories for deep optical imaging in scattering media
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">S. Kang, W. Choi</span>, and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Communications</span>
+            <span>14, 6871</span>
+            <span class="paper-tag">Deep Imaging</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s41467-023-42525-7" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+      <li class="paper" data-tag="deep-imaging">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s41467-023-39896-2" target="_blank" rel="noopener">
+              Label-free adaptive optics single-molecule localization microscopy for whole zebrafish
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Communications</span>
+            <span>14, 4185</span>
+            <span class="paper-tag">Deep Imaging</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s41467-023-39896-2" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+      <li class="paper" data-tag="deep-imaging">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s41467-023-37467-z" target="_blank" rel="noopener">
+              Exploiting volumetric wave correlation for enhanced depth imaging in scattering medium
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Communications</span>
+            <span>14, 1878</span>
+            <span class="paper-tag">Deep Imaging</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s41467-023-37467-z" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+      <li class="paper" data-tag="wave">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s41567-023-02163-8" target="_blank" rel="noopener">
+              Measuring the scattering tensor of a disordered nonlinear medium
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Physics</span>
+            <span>19, 1709</span>
+            <span class="paper-tag">Wave Propagation</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s41567-023-02163-8" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="year-group">
+    <div class="year-label">2022<small>— 03 papers</small></div>
+    <ul class="paper-list">
+
+      <li class="paper" data-tag="endoscopy">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s41467-022-32114-5" target="_blank" rel="noopener">
+              Flexible-type ultrathin holographic endoscope for microscopic imaging of unstained biological tissues
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Communications</span>
+            <span>13, 4469</span>
+            <span class="paper-tag">Endoscopy</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s41467-022-32114-5" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+      <li class="paper" data-tag="deep-imaging">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.science.org/doi/10.1126/sciadv.abo4366" target="_blank" rel="noopener">
+              Through-skull brain imaging in vivo at visible wavelengths via dimensionality reduction adaptive-optical microscopy
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Science Advances</span>
+            <span>8, eabo4366</span>
+            <span class="paper-tag">Deep Imaging</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.science.org/doi/10.1126/sciadv.abo4366" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+      <li class="paper" data-tag="deep-imaging">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s41377-021-00705-4" target="_blank" rel="noopener">
+              High-throughput volumetric adaptive optical imaging using compressed time-reversal matrix
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Light: Science &amp; Applications</span>
+            <span>11, 16</span>
+            <span class="paper-tag">Deep Imaging</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s41377-021-00705-4" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="year-group">
+    <div class="year-label">2020<small>— 03 papers</small></div>
+    <ul class="paper-list">
+
+      <li class="paper" data-tag="deep-imaging">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s41467-020-19550-x" target="_blank" rel="noopener">
+              Laser scanning reflection-matrix microscopy for aberration-free imaging through intact mouse skull
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Communications</span>
+            <span>11, 5721</span>
+            <span class="paper-tag">Deep Imaging</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s41467-020-19550-x" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+      <li class="paper" data-tag="deep-imaging">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s42254-019-0143-2" target="_blank" rel="noopener">
+              Deep optical imaging within complex scattering media
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">S. Yoon, M. Kim, M. Jang, Y. Choi, W. Choi</span>, et al. — <em>Review</em>
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Reviews Physics</span>
+            <span>2, 141</span>
+            <span class="paper-tag">Review</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s42254-019-0143-2" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+      <li class="paper" data-tag="endoscopy">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s41467-020-16263-z" target="_blank" rel="noopener">
+              Near-field transmission matrix microscopy for mapping high-order eigenmodes of subwavelength nanostructures
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Communications</span>
+            <span>11, 2575</span>
+            <span class="paper-tag">Nanoscopy</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s41467-020-16263-z" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="year-group">
+    <div class="year-label">2018<small>— 01 paper</small></div>
+    <ul class="paper-list">
+
+      <li class="paper" data-tag="wave">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/s41566-018-0120-9" target="_blank" rel="noopener">
+              Focusing of light energy inside a scattering medium by controlling the time-gated multiple light scattering
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Photonics</span>
+            <span>12, 277</span>
+            <span class="paper-tag">Wave Propagation</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/s41566-018-0120-9" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="year-group">
+    <div class="year-label">2015<small>— 01 paper</small></div>
+    <ul class="paper-list">
+
+      <li class="paper" data-tag="deep-imaging">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/nphoton.2015.24" target="_blank" rel="noopener">
+              Imaging deep within a scattering medium using collective accumulation of single-scattered waves
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Photonics</span>
+            <span>9, 253</span>
+            <span class="paper-tag">Deep Imaging</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/nphoton.2015.24" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="year-group">
+    <div class="year-label">2012<small>— 02 papers</small></div>
+    <ul class="paper-list">
+
+      <li class="paper" data-tag="wave">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://www.nature.com/articles/nphoton.2012.159" target="_blank" rel="noopener">
+              Maximal energy transport through disordered media with the implementation of transmission eigenchannels
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Nature Photonics</span>
+            <span>6, 581</span>
+            <span class="paper-tag">Wave Propagation</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://www.nature.com/articles/nphoton.2012.159" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+      <li class="paper" data-tag="endoscopy">
+        <div class="paper-main">
+          <h3 class="paper-title">
+            <a href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.109.203901" target="_blank" rel="noopener">
+              Scanner-free and wide-field endoscopic imaging by using a single multimode optical fiber
+            </a>
+          </h3>
+          <p class="paper-authors">
+            <span class="us">Choi Lab</span> and collaborators — <em>Editor's Suggestion</em>
+          </p>
+          <div class="paper-meta">
+            <span class="paper-venue">Physical Review Letters</span>
+            <span>109, 203901</span>
+            <span class="paper-tag">Endoscopy</span>
+          </div>
+        </div>
+        <div class="paper-links">
+          <a href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.109.203901" target="_blank">DOI ↗</a>
+          <a href="#">PDF</a>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="no-results" id="noResults">No publications match this filter.</div>
+
+</div>
+
+<footer>
+  <div>
+    <strong>Center for Deep Optical Imaging</strong>
+    Department of Physics, Korea University<br>
+    145 Anam-Ro, Seongbuk-Gu, Seoul 02841, Korea
+  </div>
+  <div>
+    <strong>Contact</strong>
+    <a href="mailto:wonshik@korea.ac.kr">wonshik@korea.ac.kr</a><br>
+    +82-2-3290-3118
+  </div>
+  <div>
+    <strong>External</strong>
+    <a href="#">Google Scholar ↗</a><br>
+    <a href="#">ORCID ↗</a>
+  </div>
+</footer>
+
+<script>
+  // Filter logic
+  const buttons = document.querySelectorAll('.filter-btn');
+  const papers = document.querySelectorAll('.paper');
+  const groups = document.querySelectorAll('.year-group');
+  const noResults = document.getElementById('noResults');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      let anyVisible = false;
+
+      papers.forEach(p => {
+        const show = filter === 'all' || p.dataset.tag === filter;
+        p.classList.toggle('hidden', !show);
+        if (show) anyVisible = true;
+      });
+
+      // Hide empty year groups
+      groups.forEach(g => {
+        const visibleInGroup = g.querySelectorAll('.paper:not(.hidden)').length;
+        g.style.display = visibleInGroup === 0 ? 'none' : '';
+      });
+
+      noResults.style.display = anyVisible ? 'none' : 'block';
+    });
+  });
+</script>
+<script src="js/reveal.js"></script>
+</body>
+</html>
