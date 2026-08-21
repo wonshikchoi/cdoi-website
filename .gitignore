@@ -3,3 +3,6 @@
 *.swo
 *~
 .vscode/
+
+# local helper script, not part of the site
+/push-to-github.command

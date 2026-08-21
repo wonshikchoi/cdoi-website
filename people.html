@@ -13,9 +13,9 @@
   .pi-block {
     padding: 8rem 3rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 260px 1fr;
     gap: 4rem;
-    align-items: center;
+    align-items: start;
     border-top: 1px solid var(--line);
   }
   .pi-portrait {
@@ -24,6 +24,7 @@
     position: relative;
     overflow: hidden;
     border: 1px solid var(--line);
+    max-width: 260px;
   }
   /* Portrait placeholder with abstract optical pattern */
   .pi-portrait::before {
@@ -81,6 +82,49 @@
     margin-bottom: 2rem;
   }
   .pi-bio p + p { margin-top: 1rem; }
+
+  /* ---- Structured CV ---- */
+  .pi-cv {
+    margin-bottom: 2.5rem;
+    max-width: 720px;
+  }
+  .pi-cv-section + .pi-cv-section { margin-top: 2rem; }
+  .pi-cv-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .pi-cv-list {
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .pi-cv-list li {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 1.5rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    align-items: baseline;
+  }
+  .pi-cv-list .cv-when {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .pi-cv-list .cv-what { color: var(--ink); }
+  .pi-cv-list .cv-what em { color: var(--accent); font-style: normal; font-weight: 500; }
+
+  @media (max-width: 700px) {
+    .pi-cv-list li { grid-template-columns: 1fr; gap: 0.2rem; }
+  }
   .pi-links {
     display: flex;
     gap: 2rem;
@@ -130,12 +174,12 @@
 
   .people-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 0;
     border-top: 1px solid var(--line);
   }
   .person {
-    padding: 2rem 1.5rem 2rem 0;
+    padding: 1.25rem 1rem 1.25rem 0;
     border-right: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     transition: background 0.3s, padding 0.3s;
@@ -149,12 +193,17 @@
     padding-left: 1rem;
   }
   .person-photo {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 3 / 4;
     background: var(--paper-soft);
     position: relative;
     overflow: hidden;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.85rem;
     border: 1px solid var(--line);
+  }
+  .person-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: relative; z-index: 1;
   }
   /* Abstract placeholder pattern — varies per index via nth-child */
   .person-photo::before {
@@ -187,24 +236,18 @@
   .person:nth-child(6n+5) .person-photo { --cx: 80%; --cy: 20%; --angle: 150deg; --dot-x: 20%; --dot-y: 50%; }
   .person:nth-child(6n)   .person-photo { --cx: 40%; --cy: 40%; --angle: 0deg;   --dot-x: 60%; --dot-y: 60%; }
 
-  .person-index {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-  }
+  .person-index { display: none; }
   .person-name {
     font-family: 'Fraunces', serif;
-    font-size: 1.3rem;
+    font-size: 1.05rem;
     font-weight: 400;
     letter-spacing: -0.015em;
-    margin-bottom: 0.35rem;
-    line-height: 1.1;
+    margin-bottom: 0.25rem;
+    line-height: 1.15;
   }
   .person-role {
     font-family: 'Inter Tight', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--muted);
     font-style: italic;
   }
@@ -237,7 +280,7 @@
   .alumni-list { list-style: none; }
   .alumni-item {
     display: grid;
-    grid-template-columns: 60px 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
     padding: 1.5rem 0;
     border-top: 1px solid var(--line-dark);
@@ -299,70 +342,114 @@
 <!-- ============ PI ============ -->
 <section class="pi-block">
   <div class="pi-portrait">
+    <img src="img/people/wonshik-choi.jpg" alt="Wonshik Choi" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;">
     <div class="pi-portrait-label">Director · Est. 2024</div>
   </div>
   <div class="pi-info">
     <div class="pi-role">— Principal Investigator</div>
     <h2 class="pi-name">Wonshik <em>Choi</em></h2>
-    <p class="pi-title">Professor of Physics · Associate Director, IBS CMSD</p>
-    <div class="pi-bio">
-      <p>
-        Wonshik Choi leads the Center for Deep Optical Imaging at Korea University. His research develops reflection-matrix imaging, adaptive optics, and holographic endoscopy to see deep into scattering media — opening new windows into biological tissue and nanoscale materials.
-      </p>
-      <p>
-        His group has pioneered the accumulation of single-scattered waves, time-reversal matrix methods, and lensless fiber endoscopes. Their work has appeared in <em>Nature Photonics</em>, <em>Nature Physics</em>, and <em>Nature Reviews Physics</em>.
-      </p>
+    <p class="pi-title">Professor of Physics · Director, Center for Deep Optical Imaging · Fellow, Optica & KAST</p>
+    <div class="pi-cv">
+      <div class="pi-cv-section">
+        <div class="pi-cv-title">Positions &amp; Employments</div>
+        <ul class="pi-cv-list">
+          <li><span class="cv-when">2024.08 – present</span><span class="cv-what"><em>Director</em>, Center for Deep Optical Imaging</span></li>
+          <li><span class="cv-when">2017.09 – present</span><span class="cv-what">Professor, Department of Physics, Korea University</span></li>
+          <li><span class="cv-when">2016.07 – 2024.07</span><span class="cv-what">Associate Director, Center for Molecular Spectroscopy and Dynamics, Institute for Basic Science</span></li>
+          <li><span class="cv-when">2012.09 – 2017.08</span><span class="cv-what">Associate Professor, Department of Physics, Korea University</span></li>
+          <li><span class="cv-when">2009.09 – 2012.08</span><span class="cv-what">Assistant Professor, Department of Physics, Korea University</span></li>
+        </ul>
+      </div>
+
+      <div class="pi-cv-section">
+        <div class="pi-cv-title">Educational Background</div>
+        <ul class="pi-cv-list">
+          <li><span class="cv-when">1993 – 2004</span><span class="cv-what">B.S. (1997), M.S. (1999), Ph.D. (2004) in Physics, Seoul National University, Korea</span></li>
+          <li><span class="cv-when">2004 – 2005</span><span class="cv-what">Postdoctoral Associate, Seoul National University, Seoul, Korea</span></li>
+          <li><span class="cv-when">2006 – 2009</span><span class="cv-what">Postdoctoral Associate, Massachusetts Institute of Technology, Cambridge, MA</span></li>
+        </ul>
+      </div>
+
+      <div class="pi-cv-section">
+        <div class="pi-cv-title">Professional Activities</div>
+        <ul class="pi-cv-list">
+          <li><span class="cv-when">2024.03 – present</span><span class="cv-what">Associate Editor, <em>Optica</em></span></li>
+          <li><span class="cv-when">2022.03 – 2024.02</span><span class="cv-what">Editor-in-Chief, <em>Current Optics and Photonics</em></span></li>
+          <li><span class="cv-when">2017.02 – present</span><span class="cv-what">Editorial Board Member, <em>Scientific Reports</em></span></li>
+          <li><span class="cv-when">2010.08 – 2016.08</span><span class="cv-what">Associate Editor, <em>Biomedical Optics Express</em> (Optical Society of America)</span></li>
+          <li><span class="cv-when">2013.03 – 2015.02</span><span class="cv-what">Executive Editor, <em>Journal of the Optical Society of Korea</em></span></li>
+        </ul>
+      </div>
+
+      <div class="pi-cv-section">
+        <div class="pi-cv-title">Honors &amp; Awards</div>
+        <ul class="pi-cv-list">
+          <li><span class="cv-when">2023</span><span class="cv-what">Fellow, Korean Academy of Science and Technology (한국과학기술한림원 정회원)</span></li>
+          <li><span class="cv-when">2020</span><span class="cv-what">Academic Award, Optical Society of Korea (한국광학회 학술대상)</span></li>
+          <li><span class="cv-when">2020</span><span class="cv-what">Top 100 Excellent R&amp;D Achievements, Korea (국가연구개발 우수성과 100선)</span></li>
+          <li><span class="cv-when">2019</span><span class="cv-what">Fellow, Optica</span></li>
+        </ul>
+      </div>
     </div>
     <div class="pi-links">
       <a href="mailto:wonshik@korea.ac.kr">wonshik@korea.ac.kr</a>
-      <a href="#">Google Scholar ↗</a>
-      <a href="#">CV / PDF ↗</a>
+      <a href="https://scholar.google.com/citations?user=kmGVTlQAAAAJ" target="_blank">Google Scholar ↗</a>
     </div>
   </div>
 </section>
 
-<!-- ============ POSTDOCS ============ -->
+<!-- ============ RESEARCH FELLOWS ============ -->
 <section class="people-section" id="postdocs">
   <div class="people-section-header">
-    <h2 class="people-section-title">Postdoctoral <em>Researchers</em></h2>
-    <div class="people-count">05 researchers · 2026</div>
+    <h2 class="people-section-title">Research <em>Fellows</em></h2>
+    <div class="people-count">09 researchers</div>
   </div>
   <div class="people-grid">
-    <a href="#" class="person">
-      <div class="person-photo"></div>
-      <div class="person-index">P / 01</div>
-      <h3 class="person-name">[Postdoc Name]</h3>
-      <div class="person-role">Postdoctoral Researcher</div>
-      <p class="person-interest">Reflection-matrix imaging for neural tissue</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
-      <div class="person-index">P / 02</div>
-      <h3 class="person-name">[Postdoc Name]</h3>
-      <div class="person-role">Postdoctoral Researcher</div>
-      <p class="person-interest">Computational imaging, machine learning</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
-      <div class="person-index">P / 03</div>
-      <h3 class="person-name">[Postdoc Name]</h3>
-      <div class="person-role">Postdoctoral Researcher</div>
-      <p class="person-interest">Holographic endoscopy, fiber optics</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
-      <div class="person-index">P / 04</div>
-      <h3 class="person-name">[Postdoc Name]</h3>
-      <div class="person-role">Postdoctoral Researcher</div>
-      <p class="person-interest">Nonlinear scattering media</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
-      <div class="person-index">P / 05</div>
-      <h3 class="person-name">[Postdoc Name]</h3>
-      <div class="person-role">Postdoctoral Researcher</div>
-      <p class="person-interest">Semiconductor inspection, HBM imaging</p>
-    </a>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/jin-hee-hong.jpg?v=2" alt="Jin Hee Hong"></div>
+      <div class="person-index">F / 01</div>
+      <h3 class="person-name">Jin Hee Hong</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/sungsam-kang.jpg?v=2" alt="Sungsam Kang"></div>
+      <div class="person-index">F / 02</div>
+      <h3 class="person-name">Sungsam Kang</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/young-ho-jin.jpg" alt="Young-Ho Jin"></div>
+      <div class="person-index">F / 03</div>
+      <h3 class="person-name">Young-Ho Jin</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/kalpak-gupta.jpg" alt="Kalpak Gupta"></div>
+      <div class="person-index">F / 04</div>
+      <h3 class="person-name">Kalpak Gupta</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/taeil-yoon.jpg" alt="Taeil Yoon"></div>
+      <div class="person-index">F / 05</div>
+      <h3 class="person-name">Taeil Yoon</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/dong-young-kim.jpg" alt="Dong-Young Kim"></div>
+      <div class="person-index">F / 06</div>
+      <h3 class="person-name">Dong-Young Kim</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/ye-chan-cho.png" alt="Ye-Chan Cho"></div>
+      <div class="person-index">F / 07</div>
+      <h3 class="person-name">Ye-Chan Cho</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/nguyen-thi-van-anh.jpg" alt="Nguyen Thi Van Anh"></div>
+      <div class="person-index">F / 08</div>
+      <h3 class="person-name">Nguyen Thi Van Anh</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/jaechul-cho.png" alt="Jaechul Cho"></div>
+      <div class="person-index">F / 09</div>
+      <h3 class="person-name">Jaechul Cho</h3>
+    </div>
   </div>
 </section>
 
@@ -370,79 +457,49 @@
 <section class="people-section" id="graduate">
   <div class="people-section-header">
     <h2 class="people-section-title">Graduate <em>Students</em></h2>
-    <div class="people-count">10 students · 2026</div>
+    <div class="people-count">08 students</div>
   </div>
   <div class="people-grid">
-    <a href="#" class="person">
-      <div class="person-photo"></div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/thinh-tran-le.jpg" alt="Thinh Tran Le"></div>
       <div class="person-index">G / 01</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">Ph.D. Candidate</div>
-      <p class="person-interest">Adaptive optics through skull</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
+      <h3 class="person-name">Thinh Tran Le</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/jeongwon-youm.jpg" alt="Jeongwon Youm"></div>
       <div class="person-index">G / 02</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">Ph.D. Candidate</div>
-      <p class="person-interest">Single-molecule localization in vivo</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
+      <h3 class="person-name">Jeongwon Youm</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/juntaek-oh.png" alt="Juntaek Oh"></div>
       <div class="person-index">G / 03</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">Ph.D. Candidate</div>
-      <p class="person-interest">Volumetric wave correlation</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
+      <h3 class="person-name">Juntaek Oh</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/eunyoung-seong.jpg" alt="Eunyoung Seong"></div>
       <div class="person-index">G / 04</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">Ph.D. Student</div>
-      <p class="person-interest">Time-gated multiple scattering</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
+      <h3 class="person-name">Eunyoung Seong</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/su-min-lim.jpg" alt="Su-Min Lim"></div>
       <div class="person-index">G / 05</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">Ph.D. Student</div>
-      <p class="person-interest">Multimode fiber imaging</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
+      <h3 class="person-name">Su-Min Lim</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/tran-dinh-hoang.jpg" alt="Tran Dinh Hoang"></div>
       <div class="person-index">G / 06</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">Ph.D. Student</div>
-      <p class="person-interest">Deep learning for inverse scattering</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
+      <h3 class="person-name">Tran Dinh Hoang</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/bappa-majumdar.png" alt="Bappa Majumdar"></div>
       <div class="person-index">G / 07</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">M.S. Candidate</div>
-      <p class="person-interest">Transmission eigenchannels</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
+      <h3 class="person-name">Bappa Majumdar</h3>
+    </div>
+    <div class="person">
+      <div class="person-photo"><img src="img/people/wannes-luts-de-martelaere.jpg" alt="Wannes Luts De Martelaere"></div>
       <div class="person-index">G / 08</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">M.S. Candidate</div>
-      <p class="person-interest">Label-free neuroimaging</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
-      <div class="person-index">G / 09</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">M.S. Student</div>
-      <p class="person-interest">Optical computing</p>
-    </a>
-    <a href="#" class="person">
-      <div class="person-photo"></div>
-      <div class="person-index">G / 10</div>
-      <h3 class="person-name">[Student Name]</h3>
-      <div class="person-role">M.S. Student</div>
-      <p class="person-interest">Stacked semiconductor inspection</p>
-    </a>
+      <h3 class="person-name">Wannes Luts De Martelaere</h3>
+    </div>
   </div>
 </section>
 
@@ -450,26 +507,101 @@
 <section class="alumni">
   <div class="section-label" data-num="—">Alumni</div>
   <h2 class="alumni-heading">Former members, <em>now elsewhere</em>.</h2>
+  <p style="font-size: 0.95rem; line-height: 1.65; max-width: 60ch; margin-bottom: 3rem; color: rgba(245,242,236,0.75);">
+    Researchers trained in our lab often move into universities, national research institutes, or corporate R&D. Recently, more graduates are joining top semiconductor companies due to the growing importance of optical inspection in the semiconductor industry.
+  </p>
   <ul class="alumni-list">
     <li class="alumni-item">
-      <span class="alumni-year">2024</span>
-      <span class="alumni-name">[Alumni Name]</span>
-      <span class="alumni-destination">Assistant Professor, KAIST</span>
+      <span class="alumni-name">Youngwoon Choi</span>
+      <span class="alumni-destination">Korea University</span>
     </li>
     <li class="alumni-item">
-      <span class="alumni-year">2023</span>
-      <span class="alumni-name">[Alumni Name]</span>
-      <span class="alumni-destination">Postdoc, MIT</span>
+      <span class="alumni-name">Moonseok Kim</span>
+      <span class="alumni-destination">Catholic University</span>
     </li>
     <li class="alumni-item">
-      <span class="alumni-year">2022</span>
-      <span class="alumni-name">[Alumni Name]</span>
-      <span class="alumni-destination">Research Scientist, Samsung Advanced Institute of Technology</span>
+      <span class="alumni-name">Donggyu Kim</span>
+      <span class="alumni-destination">MIT → KAIST</span>
     </li>
     <li class="alumni-item">
-      <span class="alumni-year">2021</span>
-      <span class="alumni-name">[Alumni Name]</span>
-      <span class="alumni-destination">Postdoc, Stanford University</span>
+      <span class="alumni-name">Sungsoo Woo</span>
+      <span class="alumni-destination">GERI</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Eunsung Seo</span>
+      <span class="alumni-destination">Samsung</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Hakseok Ko</span>
+      <span class="alumni-destination">KAIST</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Yonghyeon Jo</span>
+      <span class="alumni-destination">Samsung</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Pilsung Kang</span>
+      <span class="alumni-destination">GERI</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Wonjun Choi</span>
+      <span class="alumni-destination">iovis</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Junghoon Kim</span>
+      <span class="alumni-destination">ZEISS</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Munkyu Kang</span>
+      <span class="alumni-destination">UC Berkeley</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Mooseok Jang</span>
+      <span class="alumni-destination">KAIST</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Seungwon Jeong</span>
+      <span class="alumni-destination">Johns Hopkins</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Changsoon Choi</span>
+      <span class="alumni-destination">Caltech</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Changhyeong Yoon</span>
+      <span class="alumni-destination">Samsung</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Hojun Lee</span>
+      <span class="alumni-destination">Samsung</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Kyung-Deok Song</span>
+      <span class="alumni-destination">LG Innotek</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Seokchan Yoon</span>
+      <span class="alumni-destination">Pusan National University</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Ye-Ryoung Lee</span>
+      <span class="alumni-destination">Konkuk University</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Yongwoo Kwon</span>
+      <span class="alumni-destination">ASML</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Jungho Moon</span>
+      <span class="alumni-destination">Samsung</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Se Ho Kim</span>
+      <span class="alumni-destination">University of Illinois Urbana-Champaign</span>
+    </li>
+    <li class="alumni-item">
+      <span class="alumni-name">Sanghyeon Park</span>
+      <span class="alumni-destination">Samsung</span>
     </li>
   </ul>
 </section>
