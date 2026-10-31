@@ -225,6 +225,14 @@ footer a:hover { color: var(--accent); }
     transition: opacity 0.3s;
   }
   .nav-links a { color: var(--ink); font-size: 0.85rem; opacity: 1; }
+  /* The bar blends with 'difference' so it stays legible over light and dark
+     sections. That blend applies to the whole bar as a group, so the open
+     full-screen menu would be inverted to black with the page showing
+     through it. Turn the blend off while the menu is open. */
+  nav.site-nav.menu-open {
+    mix-blend-mode: normal;
+    color: var(--ink);
+  }
   .nav-links.open {
     opacity: 1;
     pointer-events: auto;
