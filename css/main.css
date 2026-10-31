@@ -39,7 +39,7 @@ body::before {
 /* -------------------------------------------------------------------------
    Navigation
    ------------------------------------------------------------------------- */
-nav {
+nav.site-nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   padding: 1.5rem 3rem;
@@ -208,7 +208,7 @@ footer a:hover { color: var(--accent); }
    Responsive
    ------------------------------------------------------------------------- */
 @media (max-width: 900px) {
-  nav { padding: 1rem 1.5rem; }
+  nav.site-nav { padding: 1rem 1.5rem; }
   .nav-toggle { display: block; }
   .nav-links {
     display: flex;
